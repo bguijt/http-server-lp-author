@@ -19,10 +19,9 @@ async fn handle_request(req: Request<Body>) -> Result<Response<Body>, hyper::Err
         // Prefix request body with "You said: "
         (&Method::POST, "/parrot") => {
             let whole_body = hyper::body::to_bytes(req).await?;
-            let mut parroted: String = String::from("You said: ");
-            parroted.push_str(String::from_utf8(whole_body.to_vec()).unwrap().as_str());
+            let response = format!("You said: {}", String::from_utf8(whole_body.to_vec()).unwrap());
 
-            Ok(Response::new(Body::from(parroted)))
+            Ok(Response::new(Body::from(response)))
         },
 
         (&Method::POST, "/echo/reversed") => {
